@@ -53,7 +53,17 @@ jobs:
         run: ctest --test-dir build --output-on-failure
 
       - name: Install into the AppDir
-        run: cmake --install build --prefix AppDir/usr
+        run: |
+          cmake --install build --prefix AppDir/usr
+          # linuxdeploy's qt plugin brings the Wayland shell integrations but
+          # not the client buffer ones.  Half a Wayland stack is worse than
+          # none: Qt picks wayland, finds no EGL integration and aborts instead
+          # of falling back to xcb.  Copied in before linuxdeploy runs, so it
+          # resolves their libraries too.
+          mkdir -p AppDir/usr/plugins
+          cp -r "$QT_ROOT_DIR/plugins/wayland-graphics-integration-client" \
+                AppDir/usr/plugins/
+          ls AppDir/usr/plugins/wayland-graphics-integration-client
 
       - name: Fetch linuxdeploy
         run: |
