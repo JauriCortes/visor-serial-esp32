@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Visor Serial ESP32
+Comment=Muestra las líneas que un ESP32 envía por el puerto serie
+Exec=esp32visor
+Icon=utilities-terminal
+Terminal=false
+Categories=Development;Electronics;
+Keywords=esp32;serial;uart;
