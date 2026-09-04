@@ -72,6 +72,11 @@ jobs:
           # ships without QtQuick.Controls.Material, QtQuick.Particles or
           # QtQuick.Dialogs -- it would build fine and die on the first window.
           QML_SOURCES_PATHS: ${{ github.workspace }}/qml
+          # Without these the AppImage only carries the xcb plugin and a
+          # Wayland session runs it through XWayland (blurry on HiDPI, and
+          # nothing at all where XWayland is missing).
+          EXTRA_QT_MODULES: waylandclient
+          EXTRA_PLATFORM_PLUGINS: libqwayland-generic.so;libqwayland-egl.so
           OUTPUT: esp32visor-x86_64.AppImage
         run: |
           export QMAKE="$QT_ROOT_DIR/bin/qmake"
