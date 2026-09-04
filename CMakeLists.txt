@@ -51,7 +51,6 @@ target_link_libraries(esp32visor PRIVATE
 #   cmake --install <build> --prefix ~/.local
 # On Windows the app ships as a folder that gets unzipped and double clicked,
 # so the .exe belongs at the root, next to the DLLs windeployqt puts there.
-# The Qt deployment script reads this same variable, hence setting it up here.
 if(WIN32)
     set(CMAKE_INSTALL_BINDIR ".")
 else()
@@ -67,16 +66,10 @@ if(UNIX AND NOT APPLE)
             DESTINATION share/icons/hicolor/scalable/apps)
 endif()
 
-# On Windows, `cmake --install` also drops the Qt DLLs and the QML modules next
-# to the .exe (it runs windeployqt).  On Linux the AppImage is assembled by
-# linuxdeploy over the install tree, so this would only get in the way.
-if(WIN32)
-    qt_generate_deploy_qml_app_script(
-        TARGET esp32visor
-        OUTPUT_SCRIPT deploy_script
-        NO_UNSUPPORTED_PLATFORM_ERROR)
-    install(SCRIPT ${deploy_script})
-endif()
+# The Qt libraries are not installed here: the release workflow runs
+# windeployqt (Windows) and linuxdeploy (Linux) over this tree.  Qt's own
+# deployment script splits the .exe from its DLLs across bin/ and the prefix
+# root, which does not run, so it is not used.
 
 # Proves the criterion of RNF-08: the pipeline classes build and run with no
 # window and no serial port in sight.  ctest --test-dir <build>
