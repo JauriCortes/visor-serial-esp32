@@ -113,8 +113,10 @@ jobs:
       - name: Install and zip
         shell: pwsh
         run: |
-          cmake --install build --config Release --prefix dist
-          Compress-Archive -Path dist/bin/* -DestinationPath esp32visor-windows-x64.zip
+          # The prefix has to be absolute: Qt's deploy script writes a qt.conf
+          # next to the .exe and refuses a relative path for it.
+          cmake --install build --config Release --prefix "$env:GITHUB_WORKSPACE/dist"
+          Compress-Archive -Path dist/* -DestinationPath esp32visor-windows-x64.zip
 
       - uses: actions/upload-artifact@v4
         with:

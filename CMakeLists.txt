@@ -49,10 +49,23 @@ target_link_libraries(esp32visor PRIVATE
 
 # Installs to the prefix given on the command line, e.g.
 #   cmake --install <build> --prefix ~/.local
-install(TARGETS esp32visor RUNTIME DESTINATION bin)
-install(FILES packaging/esp32visor.desktop DESTINATION share/applications)
-install(FILES packaging/esp32visor.svg
-        DESTINATION share/icons/hicolor/scalable/apps)
+# On Windows the app ships as a folder that gets unzipped and double clicked,
+# so the .exe belongs at the root, next to the DLLs windeployqt puts there.
+# The Qt deployment script reads this same variable, hence setting it up here.
+if(WIN32)
+    set(CMAKE_INSTALL_BINDIR ".")
+else()
+    set(CMAKE_INSTALL_BINDIR "bin")
+endif()
+
+install(TARGETS esp32visor RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+# The launcher entry and its icon only mean something on a desktop Linux.
+if(UNIX AND NOT APPLE)
+    install(FILES packaging/esp32visor.desktop DESTINATION share/applications)
+    install(FILES packaging/esp32visor.svg
+            DESTINATION share/icons/hicolor/scalable/apps)
+endif()
 
 # On Windows, `cmake --install` also drops the Qt DLLs and the QML modules next
 # to the .exe (it runs windeployqt).  On Linux the AppImage is assembled by
