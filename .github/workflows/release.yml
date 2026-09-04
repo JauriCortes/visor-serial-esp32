@@ -123,12 +123,12 @@ jobs:
           # folder that runs from wherever it is unzipped.  --qmldir is what
           # makes it scan our imports (Material, Particles, Dialogs).
           & "$env:QT_ROOT_DIR\bin\windeployqt.exe" `
-              --release --qmldir qml `
+              --release --no-compiler-runtime --qmldir qml `
               "$env:GITHUB_WORKSPACE\dist\esp32visor.exe"
-          # The MSVC runtime the .exe was built against.  windeployqt's
-          # --compiler-runtime only drops the vc_redist installer in the zip,
-          # which the user would have to run; the DLLs themselves are what
-          # makes the folder work on a machine that never saw Visual Studio.
+          # The MSVC runtime the .exe was built against.  windeployqt ships it
+          # as vc_redist.x64.exe, an installer the user would have to run; the
+          # DLLs themselves are what makes the folder work on a machine that
+          # never saw Visual Studio, so they go in and the installer does not.
           $crt = Get-ChildItem "$env:VCToolsRedistDir\x64" -Directory `
                  -Filter "Microsoft.VC*.CRT" | Select-Object -First 1
           if (-not $crt) { throw "No encontré el runtime de MSVC" }
