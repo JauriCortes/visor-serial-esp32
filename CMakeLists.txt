@@ -51,6 +51,19 @@ target_link_libraries(esp32visor PRIVATE
 #   cmake --install <build> --prefix ~/.local
 install(TARGETS esp32visor RUNTIME DESTINATION bin)
 install(FILES packaging/esp32visor.desktop DESTINATION share/applications)
+install(FILES packaging/esp32visor.svg
+        DESTINATION share/icons/hicolor/scalable/apps)
+
+# On Windows, `cmake --install` also drops the Qt DLLs and the QML modules next
+# to the .exe (it runs windeployqt).  On Linux the AppImage is assembled by
+# linuxdeploy over the install tree, so this would only get in the way.
+if(WIN32)
+    qt_generate_deploy_qml_app_script(
+        TARGET esp32visor
+        OUTPUT_SCRIPT deploy_script
+        NO_UNSUPPORTED_PLATFORM_ERROR)
+    install(SCRIPT ${deploy_script})
+endif()
 
 # Proves the criterion of RNF-08: the pipeline classes build and run with no
 # window and no serial port in sight.  ctest --test-dir <build>

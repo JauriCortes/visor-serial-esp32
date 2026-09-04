@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <title>Visor Serial ESP32</title>
+
+  <!-- Console window: the surface colours come from qml/Theme.qml. -->
+  <rect x="16" y="16" width="224" height="224" rx="34" fill="#0d1117"/>
+  <rect x="16.5" y="16.5" width="223" height="223" rx="33.5" fill="none"
+        stroke="#2d3540" stroke-width="3"/>
+
+  <!-- Title bar, with the severity dots the console uses. -->
+  <path d="M16 50 h224 v-16 a18 18 0 0 0 -18 -18 h-188 a18 18 0 0 0 -18 18 z"
+        fill="#161b22"/>
+  <line x1="16" y1="50" x2="240" y2="50" stroke="#2d3540" stroke-width="3"/>
+  <circle cx="42" cy="33" r="6" fill="#ff7b72"/>
+  <circle cx="64" cy="33" r="6" fill="#e3b341"/>
+  <circle cx="86" cy="33" r="6" fill="#79c0ff"/>
+
+  <!-- Log lines, dimmed: the history behind the incoming signal. -->
+  <g fill="#2d3540">
+    <rect x="44" y="76" width="104" height="9" rx="4.5"/>
+    <rect x="44" y="102" width="150" height="9" rx="4.5"/>
+    <rect x="44" y="180" width="128" height="9" rx="4.5"/>
+    <rect x="44" y="206" width="86" height="9" rx="4.5"/>
+  </g>
+
+  <!-- The serial wave crossing the window: one message arriving. -->
+  <path d="M40 145 h26 l14 -34 l20 68 l18 -50 l16 32 l14 -16 h68"
+        fill="none" stroke="#4ea1ff" stroke-width="9"
+        stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -8,6 +8,34 @@ animación derivada de su propio contenido.
 El diseño y los criterios de aceptación están en
 [docs/01-requerimientos.md](docs/01-requerimientos.md).
 
+## Descargar
+
+Los binarios listos para usar están en
+[Releases](https://github.com/JauriCortes/visor-serial-esp32/releases/latest).
+No hace falta instalar Qt ni compilar nada.
+
+**Linux** (`esp32visor-x86_64.AppImage`): un solo archivo, no instala nada en el
+sistema. Anda de Ubuntu 22.04 en adelante, y en cualquier distro de esa época o
+más nueva.
+
+```bash
+chmod +x esp32visor-x86_64.AppImage
+./esp32visor-x86_64.AppImage
+```
+
+Si dice «Permiso denegado» al abrir el puerto, es el grupo `uucp`: mirá
+[Permisos del puerto serie](#permisos-del-puerto-serie) más abajo. El AppImage
+no cambia nada de eso.
+
+**Windows** (`esp32visor-windows-x64.zip`): descomprimir y ejecutar
+`esp32visor.exe` **desde adentro de la carpeta descomprimida**. El ejecutable
+necesita las DLL que vienen al lado, así que no lo saques solo a otro lado. La
+placa tiene que tener su driver (CH340 o CP2102, según el ESP32).
+
+Los dos los compila GitHub Actions con el
+[workflow de build](.github/workflows/release.yml) cada vez que se publica una
+versión.
+
 ## Compilar
 
 ```bash
